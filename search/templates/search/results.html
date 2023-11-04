@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+          .resultsContainer{margin-left: auto; margin-right: auto;
+                            width:50%;
+                            align-content:center; }
+           .innerDiv{margin-top: 10px;  }
+           .h1{text-align: center;}
+    </style>
+</head>
+<body>
+    <h1 class="h1">Search Results</h1>
+    <div class="resultsContainer">
+        {% for result in results %}
+            <div class="innerDiv">
+                <a href="{{result.link }}">{{ result.title }}</a>
+                <p>{{ result.snippet }}</p>
+            </div>
+        {% empty %}
+            <p>No search results found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
