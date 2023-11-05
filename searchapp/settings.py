@@ -103,6 +103,24 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -125,3 +143,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# settings.py
+
+GOOGLE_API_KEY = "AIzaSyCZMgwmv-mF9O_JQjuK6cmTYJB-hIBzlOA"
+GOOGLE_CX = "47404471b11724b83"
