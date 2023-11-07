@@ -108,13 +108,15 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+       'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'django_error.log',
         },
     },
     'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
+        'handlers': ['file'],
+        'level': 'ERROR',
     },
 }
 
@@ -147,3 +149,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 GOOGLE_API_KEY = "AIzaSyCZMgwmv-mF9O_JQjuK6cmTYJB-hIBzlOA"
 GOOGLE_CX = "47404471b11724b83"
+
+SERPAPI_API_KEY = 'd2105796afc21bcd747a54470b6f0f33a21620282b1fd726a4cdd3a318a24b23'
+# SERPAPI_API_KEY = '2271235210457c933f14199a3f085024'

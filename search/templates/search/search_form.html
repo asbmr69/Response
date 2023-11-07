@@ -34,7 +34,7 @@ h1{
 <body>
         <h1>RESPONSE
         </h1>
-    <form id="searchForm" method="post" action="/search/search/">
+    <form id="searchForm" method="post" action="{% url 'search' %}">
         {% csrf_token %}
         <input type="text" id="searchQuery" name="query" placeholder="Enter your query">
         <button id="searchButton" type="submit">Search</button>
