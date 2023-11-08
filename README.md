@@ -1,5 +1,5 @@
 # Response
-This app is developed by "Tushar Tiwari" and "Anand Singh Badal". 
+This app is developed by "Tushar Tiwari","Rishabh Agarwal" and "Anand Singh Badal". 
 
 To use this app in your local machine--
 
