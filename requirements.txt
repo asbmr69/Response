@@ -1,0 +1,13 @@
+asgiref==3.7.2
+certifi==2023.7.22
+charset-normalizer==3.3.2
+Django==4.2.7
+google-search-results==2.4.2
+idna==3.4
+psycopg2==2.9.9
+psycopg2-binary==2.9.9
+requests==2.31.0
+serpapi==0.1.5
+sqlparse==0.4.4
+tzdata==2023.3
+urllib3==2.0.7

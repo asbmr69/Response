@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
 import logging
-from serpapi import GoogleSearch
+from serpapi import BingSearch
 import requests
 
 logger = logging.getLogger('django')
@@ -15,12 +15,12 @@ def serpapi_search(query):
     params = {
         "q": query,
         "api_key": api_key,
-        "num": 20
+        "num": 40
         # You can add more parameters here as needed
     }
 
     try:
-        search = GoogleSearch(params)
+        search = BingSearch(params)
         results = search.get_dict()
 
         return results.get("organic_results", [])  # Extract organic search results

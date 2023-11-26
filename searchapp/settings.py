@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
+password='Tushartiwari21'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-)!x7vr(&u2y=27e05s^@4dl2$v@cpr_g_-&8aoe3g2nwn66^fh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'searchapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'response',
+        'HOST': 'database.cwufnagkmpyl.ap-south-1.rds.amazonaws.com',
+        'USER': 'postgres',
+        'PASSWORD':password,
+        'PORT': '5432',         
     }
 }
 
