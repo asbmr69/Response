@@ -1,18 +1,18 @@
 # Response
-This app is developed by "Tushar Tiwari","Rishabh Agarwal" and "Anand Singh Badal". 
+This app was developed by "Tushar Tiwari", "Rishabh Agarwal" and "Anand Singh Badal". 
 
-To use this app in your local machine--
+To use this app on your local machine--
 
-step1: clone the repo in your local machine.
+Step 1: clone the repo in your local machine.
 
-step2: create a virtual envoirnment by running
+Step 2: Create a virtual environment by running
        ```py -3 -m venv venv```
        then activate the bat script in the command prompt.
        
-step3: then install dependencies by using python pip 
+Step 3: then install dependencies by using python pip 
        ```pip install django requests```
-       then run the manage.py file with runserver attribute tostart the app
+       then run the manage.py file with runserver attribute to start the app
        ```python manage.py runserver```
-       make sure you are in correct folder to run manage .py...
+       make sure you are in the correct folder to run manage .py...
 
        ---Happy coding---
