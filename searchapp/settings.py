@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-)!x7vr(&u2y=27e05s^@4dl2$v@cpr_g_-&8aoe3g2nwn66^fh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'searchapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'response',
-        'HOST': 'database.cwufnagkmpyl.ap-south-1.rds.amazonaws.com',
-        'USER': 'postgres',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Response',
+        'HOST': 'response.cduhjtpfzebg.eu-north-1.rds.amazonaws.com',
+        'USER': 'mysuperuser',
         'PASSWORD':password,
         'PORT': '5432',         
     }
