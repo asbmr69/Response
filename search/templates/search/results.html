@@ -3,11 +3,40 @@
 <head>
     <title>Search Results</title>
     <style>
-          .resultsContainer{margin-left: auto; margin-right: auto;
-                            width:50%;
-                            align-content:center; }
-           .innerDiv{margin-top: 10px;  }
-           .h1{text-align: center;}
+        .resultsContainer {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            align-content: center;
+        }
+
+        .innerDiv {
+            margin-top: 10px;
+        }
+
+        .h1 {
+            text-align: center;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #007bff;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        .pagination .current {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -15,12 +44,30 @@
     <div class="resultsContainer">
         {% for result in results %}
             <div class="innerDiv">
-                <a href="{{result.link }}">{{ result.title }}</a>
+                <a href="{{ result.link }}">{{ result.title }}</a>
                 <p>{{ result.snippet }}</p>
             </div>
         {% empty %}
             <p>No search results found.</p>
         {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if results.has_previous %}
+                <a href="?page=1{% if query %}&query={{ query }}{% endif %}">&laquo; first</a>
+                <a href="?page={{ results.previous_page_number }}{% if query %}&query={{ query }}{% endif %}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ results.number }} of {{ results.paginator.num_pages }}.
+            </span>
+    
+            {% if results.has_next %}
+                <a href="?page={{ results.next_page_number }}{% if query %}&query={{ query }}{% endif %}">next</a>
+                <a href="?page={{ results.paginator.num_pages }}{% if query %}&query={{ query }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 </body>
 </html>

@@ -5,12 +5,15 @@ from django.conf import settings
 import logging
 from serpapi import BingSearch
 import requests
+from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import Query, SearchResult
 
 logger = logging.getLogger('django')
 
 # Function to make a request to SerpApi
 def serpapi_search(query):
-    api_key = settings.SERPAPI_API_KEY  
+    api_key = settings.SERPAPI_API_KEY
 
     params = {
         "q": query,
@@ -36,7 +39,6 @@ def google_custom_search(api_key, cx, query):
         "key": api_key,
         "cx": cx,
         "q": query,
-        
     }
 
     try:
@@ -59,7 +61,26 @@ def google_custom_search(api_key, cx, query):
     except requests.exceptions.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise  # Reraise the exception
-    
+
+@transaction.atomic
+def store_query_and_results(query_text, search_results):
+    # Create a Query instance and save it to the database
+    query_instance = Query.objects.create(query_text=query_text)
+
+    # Create a list of SearchResult instances
+    search_results_instances = [
+        SearchResult(
+            query=query_instance,
+            title=result.get("title", ""),
+            link=result.get("link", ""),
+            snippet=result.get("snippet", "")
+        )
+        for result in search_results
+    ]
+
+    # Bulk create the SearchResult instances
+    SearchResult.objects.bulk_create(search_results_instances)
+
 def remove_duplicates(results):
     unique_results = []
     seen_links = set()
@@ -72,8 +93,6 @@ def remove_duplicates(results):
 
     return unique_results
 
-
-# Function to integrate results from Google Custom Search and SerpApi
 def integrate_multiple_apis(query):
     results = []
 
@@ -84,18 +103,17 @@ def integrate_multiple_apis(query):
     # Combine results from different APIs
     results.extend(google_results)
     results.extend(serpapi_results)
-    
+
     # Remove duplicates based on the "link" key
     unique_results = remove_duplicates(results)
 
-    # You can sort or filter the results here if needed
-
-    return unique_results
+    return unique_results, query
 
 def search_form(request):
     return render(request, 'search/search_form.html')
 
 def search(request):
+    query = ""
     results = []
 
     if request.method == 'POST':
@@ -104,12 +122,27 @@ def search(request):
         logger.debug("Query: %s", query)
 
         try:
-            results = integrate_multiple_apis(query)
-        except requests.exceptions.RequestException as google_error:
-            logger.error("Google Custom Search error: %s", google_error)
-            return JsonResponse({"error": "An error occurred while querying Google Custom Search."}, status=500)
-        except Exception as serpapi_error:
-            logger.error("SerpApi error: %s", serpapi_error)
-            return JsonResponse({"error": "An error occurred while querying SerpApi."}, status=500)
+            results, query = integrate_multiple_apis(query)
+            store_query_and_results(query, results)
+        except requests.exceptions.RequestException as api_error:
+            logger.error("API error: %s", api_error)
+            return JsonResponse({"error": f"An error occurred while querying the API: {api_error}"}, status=500)
+        except Exception as error:
+            logger.error("Error: %s", error)
+            return JsonResponse({"error": f"An error occurred: {error}"}, status=500)
 
-    return render(request, 'search/results.html', {'results': results})
+    # Paginate the results if a query is present
+    if query:
+        page = request.GET.get('page', 1)
+        paginator = Paginator(results, 10)  # Show 10 results per page
+
+        try:
+            paginated_results = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_results = paginator.page(1)
+        except EmptyPage:
+            paginated_results = paginator.page(paginator.num_pages)
+    else:
+        paginated_results = []
+
+    return render(request, 'search/results.html', {'results': paginated_results, 'query': query})

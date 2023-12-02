@@ -12,20 +12,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging
+from dotenv import load_dotenv
 
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-password='Tushartiwari21'
+password= os.environ.get('DB_PASSWORD')
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)!x7vr(&u2y=27e05s^@4dl2$v@cpr_g_-&8aoe3g2nwn66^fh'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,9 +81,9 @@ WSGI_APPLICATION = 'searchapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Response',
-        'HOST': 'response.cduhjtpfzebg.eu-north-1.rds.amazonaws.com',
-        'USER': 'mysuperuser',
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_HOST'),
+        'USER': os.environ.get('DB_USER'),
         'PASSWORD':password,
         'PORT': '5432',         
     }
@@ -143,7 +145,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = 'C:/Users/computer/Desktop/response/staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -151,8 +155,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 
-GOOGLE_API_KEY = "AIzaSyCZMgwmv-mF9O_JQjuK6cmTYJB-hIBzlOA"
-GOOGLE_CX = "47404471b11724b83"
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+GOOGLE_CX = os.environ.get('GOOGLE_CX')
 
-SERPAPI_API_KEY = 'd2105796afc21bcd747a54470b6f0f33a21620282b1fd726a4cdd3a318a24b23'
+SERPAPI_API_KEY = os.environ.get('SERPAPI_API_KEY')
 # SERPAPI_API_KEY = '2271235210457c933f14199a3f085024'
